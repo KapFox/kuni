@@ -1,9 +1,1 @@
-```
-# Environment variables
-.env
-.env.local
-.env.*
-
-# Logs
-*.log
-```
+Nothing needs to be added to .gitignore since the changes only include source/config files (README_RU.md, startup.sh) without any build artifacts, dependencies, or temporary files.
