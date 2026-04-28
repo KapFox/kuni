@@ -12,9 +12,11 @@ services:
       resources:
         reservations:
           devices:
-            - driver: nvidia
-              count: all
+            - driver: ${OLLAMA_GPU_DRIVER:-nvidia}
+              count: ${GPU_DEVICE_IDS:-all}
               capabilities: [ gpu ]
+    profiles:
+      - ollama-local
 
   sd:
     image: universonic/stable-diffusion-webui:full
@@ -42,5 +44,7 @@ services:
       resources:
         reservations:
           devices:
-            - driver: nvidia
+            - driver: ${SD_GPU_DRIVER:-nvidia}
               capabilities: [gpu]
+    profiles:
+      - sd-local

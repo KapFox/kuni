@@ -9,8 +9,12 @@ pid=$!
 sleep 5
 
 echo "🔴 Retrieve LLAMA3 model..."
-ollama pull qwen3-embedding
-ollama pull qwen3.5:9b
+# Pull models specified in environment variable or defaults
+MODELS="${OLLAMA_MODELS:-qwen3-embedding qwen3.5:9b}"
+for model in $MODELS; do
+    echo "Pulling model: $model"
+    ollama pull "$model"
+done
 echo "🟢 Done!"
 
 # Wait for Ollama process to finish.
