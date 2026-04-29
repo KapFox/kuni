@@ -137,26 +137,53 @@ sudo dnf install fontconfig-devel libXi libglvnd-devel libstdc++-static glew-dev
 
 ## Setup Instructions
 
-### 1. Ollama Model Setup
+### 1. Configure Environment (Optional but Recommended)
 
-Edit `ollama_setup.sh` to specify which LLM model to use (uncomment and modify as needed):
+Create a `.env` file to customize your deployment:
+
 ```bash
-# Example: pull a model
-ollama pull llama3:8b
-# or
-ollama pull gemma3:27b
+cp .env.example .env
 ```
 
-### 2. AI Services Setup (Docker)
+Edit `.env` to configure:
+- **Disable local AI services** if using external servers
+- **GPU settings** if you don't have NVIDIA GPU
+- **Custom models** to pull
+- **External server URLs**
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed setup options.
+
+### 2. Ollama Model Setup
+
+If running local Ollama, edit `ollama_setup.sh` to specify which LLM model to use, or set the `OLLAMA_MODELS` environment variable in your `.env` file:
 
 ```bash
-# Start AI services using Docker Compose
+# In .env file:
+OLLAMA_MODELS="qwen3-embedding qwen3.5:9b gemma3:27b"
+```
+
+### 3. AI Services Setup (Docker)
+
+**Option A: Using external servers (recommended)**
+
+If you configured `.env` with `ENABLE_OLLAMA=false` and `ENABLE_SD=false`, skip this step - just use your external servers.
+
+**Option B: Running local containers**
+
+```bash
+# Start all AI services using Docker Compose
 docker compose up -d
 
-# This starts:
-# - Ollama (LLM server) on port 11434
-# - Stable Diffusion WebUI on port 7860
+# Or start specific services only:
+docker compose --profile ollama-local up -d ollama  # Only Ollama
+docker compose --profile sd-local up -d sd          # Only Stable Diffusion
 ```
+
+This starts:
+- Ollama (LLM server) on port 11434 (if enabled)
+- Stable Diffusion WebUI on port 7860 (if enabled)
+
+**Note:** If you don't have an NVIDIA GPU, see [QUICKSTART.md](QUICKSTART.md) for CPU-only or AMD GPU configuration.
 
 ### 3. Create Secrets File
 Create `build/secrets/secrets.h` with:
