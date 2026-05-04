@@ -1,3 +1,6 @@
+# At the moment the project is probably not working, unfortunately I can't compile it because it requires 60+ GB of RAM
+
+
 # kuni (くに)
 
 LLM character AI. It interacts with the world through a text-based Telegram Client optimized for LLM (tdlib; not to be
